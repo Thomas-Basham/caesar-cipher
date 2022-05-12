@@ -59,8 +59,8 @@ def encrypt(message, shift):
 encrypt("Gimme a 1!", 10)
 
 
-def decrypt():
-    pass
+def decrypt(message, shift):
+    return encrypt(message, -shift)
 
 
 def crack():
