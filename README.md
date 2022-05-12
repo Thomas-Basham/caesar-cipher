@@ -13,7 +13,7 @@
 5. [x] E.g. encrypt(‘abc’,27) would return ‘bcd’.
 6. [x] shifts that push a letter out or range should wrap around.
 7. [x] E.g. encrypt(‘zzz’,1) would return ‘aaa’.
-8. [ ] Create a decrypt function that takes in encrypted text and numeric shift which will restore the encrypted text back to its original form when correct key is supplied.
+8. [x] Create a decrypt function that takes in encrypted text and numeric shift which will restore the encrypted text back to its original form when correct key is supplied.
 9. [ ] create a crack function that will decode the cipher so that an encrypted message can be transformed into its original state WITHOUT access to the key.
 10. [ ] Devise a method for the computer to determine if code was broken with minimal human guidance.
 

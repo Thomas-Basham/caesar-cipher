@@ -1,67 +1,73 @@
 import string
 import re
+import nltk
+from nltk.corpus import words, names
+
+nltk.download('words', quiet=True)
+nltk.download('names', quiet=True)
 
 
+word_list = words.words()
+name_list = names.words()
 
 
 def encrypt(message, shift):
-    punctuation_set = list(string.punctuation)
-    alphabet_list = list(string.ascii_lowercase)
-    alphabet_list_upper = list(string.ascii_uppercase)
-    # print(alphabet_list
+    # grab punctuation characters
+    punctuation_list = list(string.punctuation)
 
-    shifted_alphabet = []
+    encrypted_list = []
 
-    index_stack = []
-    encrypted = []
-
-    shifted = shift
-
-    # Shift the alphabet
-    for i in range(len(alphabet_list)):
-        shifted_alphabet.append(alphabet_list[shifted % len(alphabet_list)])
-        shifted = shifted + 1
-
-    # retrieve indexes of alphabet
+    # add to encrypted list
     for letter in message:
         if letter.isspace():
-            index_stack.append(letter)
+            encrypted_list.append(letter)
+
         if letter.isdigit():
-            index_stack.append(letter)
-        if letter in punctuation_set:
-            index_stack.append(letter)
-        cipher_text = ""
+            encrypted_list.append(letter)
+
+        if letter in punctuation_list:
+            encrypted_list.append(letter)
+
         if letter.isalpha():
+            cipher_text = ""
             stay_in_alpha = ord(letter) + shift
+
             if stay_in_alpha > ord('z'):
                 stay_in_alpha -= 26
             fina_letter = chr(stay_in_alpha)
             cipher_text += fina_letter
-            index_stack.append(cipher_text)
+            encrypted_list.append(cipher_text)
 
-    print(index_stack)
-
-    # return shifted_alphabet index
-    for number in index_stack:
-        # if number == " ":
-        #     encrypted.append(number)
-
-        if isinstance(number, str):
-            encrypted.append(number)
-        elif number != " ":
-            encrypted.append(shifted_alphabet[number])
-    # print(punctuation_set)
-
-
-
-    return ''.join([str(i) for i in encrypted])
-
-encrypt("Gimme a 1!", 10)
+    return ''.join([str(i) for i in encrypted_list])
 
 
 def decrypt(message, shift):
     return encrypt(message, -shift)
 
 
-def crack():
-    pass
+def crack(encrypted_message):
+
+    def count_words(text):
+
+        candidate_words = text.split()
+
+        word_count = 0
+        for candidate in candidate_words:
+            word = re.sub(r'[^A-Za-z]+', '', candidate)
+            if word in word_list or word in name_list:
+                word_count += 1
+            else:
+                pass
+
+
+        return word_count
+
+    for i in range(26):
+        results = encrypt(encrypted_message, i)
+        word_count = count_words(results)
+        percentage = int(word_count / len(results.split()) * 100)
+
+        if percentage > 90:
+            return results
+    return ''
+
